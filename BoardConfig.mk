@@ -110,6 +110,40 @@ TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_NEW_ION_HEAP := true
 TW_THEME := portrait_hdpi
 
+# MultiROM configuration
+MR_DEVICE_HOOKS := $(DEVICE_PATH)/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 6
+MR_DEVICE_BOOTDEVICE := /dev/block/platform/soc/7464900.sdhci
+MR_DEVICE_VARIANTS := F8131 F8132
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_ENCRYPTION := true
+MR_ENCRYPTION_FAKE_PROPERTIES := true
+MR_ENCRYPTION_FAKE_PROPERTIES_EXTRAS := $(DEVICE_PATH)/multirom/mr_fake_properties.c
+MR_ENCRYPTION_SETUP_SCRIPT := $(DEVICE_PATH)/multirom/mr_cp_crypto.sh
+MR_FSTAB := $(DEVICE_PATH)/recovery.fstab
+MR_INIT_DEVICES := $(DEVICE_PATH)/multirom/mr_init_devices.c
+MR_INPUT_TYPE := type_b
+MR_KEXEC_MEM_MIN := 0x86000000
+MR_NO_KEXEC := enabled
+MR_PIXEL_FORMAT := "RGBA_8888"
+MR_UNIFIED_TABS := true
+MR_USE_DEBUGFS_MOUNT := true
+MR_USE_MROM_FSTAB := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+
+# MultiROM build
+DEVICE_RESOLUTION := 1080x1920
+TARGET_RECOVERY_IS_MULTIROM := true
+
+# MultiROM versioning
+ifeq ($(MR_REC_VERSION),)
+MR_REC_VERSION := $(shell date -u +%Y%m%d)
+endif
+
+# MultiROM version tag
+BOARD_MKBOOTIMG_ARGS += --board mrom$(MR_REC_VERSION)
+
 # Recovery blobs
 TARGET_RECOVERY_DEVICE_MODULES := libbinder libgui libui libEGL libGLES_trace libGLESv2 libprotobuf-cpp-lite libsync
 TW_RECOVERY_ADDITIONAL_RELINK_FILES := $(OUT)/system/lib64/libbinder.so $(OUT)/system/lib64/libgui.so $(OUT)/system/lib64/libui.so $(OUT)/system/lib64/libEGL.so $(OUT)/system/lib64/libGLES_trace.so $(OUT)/system/lib64/libGLESv2.so $(OUT)/system/lib64/libprotobuf-cpp-lite.so $(OUT)/system/lib64/libsync.so
