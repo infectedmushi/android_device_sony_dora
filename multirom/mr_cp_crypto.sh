@@ -8,7 +8,7 @@ DEVICE_PATH="device/sony/dora";
 # Import decrypt files
 mkdir -p "$2/vendor/firmware";
 mkdir -p "$2/vendor/lib64/hw";
-cp -ra "$1/${DEVICE_PATH}/recovery/root/sbin/"* "$2/";
+cp -ra "$1/${DEVICE_PATH}/recovery/root/sbin/strace" "$2/";
 cp -ra "$1/${DEVICE_PATH}/recovery/root/vendor/firmware/"* "$2/vendor/firmware/";
 cp -ra "$1/${DEVICE_PATH}/recovery/root/vendor/lib64/"*".so" "$2/";
 cp -ra "$1/${DEVICE_PATH}/recovery/root/vendor/lib64/hw/keystore.msm8996.so" "$2/vendor/lib64/hw/keystore.default.so";
