@@ -79,7 +79,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
     ro.usb.pid_suffix=1E1
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, device/sony/tone/platform.mk)
+$(call inherit-product, device/sony/tone-common/platform.mk)
 $(call inherit-product, vendor/sony/tone-dora/dora-vendor.mk)
 
 # copy wlan firmware
