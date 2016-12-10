@@ -1,0 +1,2 @@
+# OTA assert
+TARGET_OTA_ASSERT_DEVICE := F8131,F8132,dora
