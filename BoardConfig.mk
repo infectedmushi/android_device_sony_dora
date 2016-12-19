@@ -21,3 +21,5 @@ WIFI_BUS := PCIE
 BOARD_KERNEL_CMDLINE += androidboot.hardware=dora
 
 #TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/input/clearpad/wakeup_gesture"
+
+TARGET_OTA_ASSERT_DEVICE := dora,F8131,F8132
