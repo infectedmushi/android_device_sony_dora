@@ -76,6 +76,7 @@ void mrom_hook_before_fb_close(void)
 void tramp_hook_before_device_init(void)
 {
     // setup the clearpad touchscreen
+    write_file("/sys/devices/virtual/input/clearpad/post_probe_start", "1");
     write_file("/sys/kernel/debug/clearpad/hwtest", "XP");
 }
 #endif /* MR_DEVICE_HOOKS >= 3 */
