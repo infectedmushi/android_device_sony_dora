@@ -6,6 +6,20 @@ service sbinqseecomd /sbin/qseecomd
     group root
     seclabel u:r:recovery:s0
 
+service sbinqseecomdpre /sbin/qseecomdprepare.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service sbinqseecomdrel /sbin/qseecomdrelease.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
 service pulldecryptfiles /sbin/pulldecryptfiles.sh
     oneshot
     disabled
@@ -52,6 +66,11 @@ on fs
     # start pulldecryptfiles
 
 on property:ro.crypto.state=encrypted
+    stop sbinqseecomdpre
+    start sbinqseecomdpre
+
+    wait /sbin/qseecomd.ready
+
     stop sbinqseecomd
     start sbinqseecomd
 
