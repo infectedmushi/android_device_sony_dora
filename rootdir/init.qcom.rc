@@ -229,6 +229,23 @@ on boot
     mkdir /data/nfc 0770 nfc nfc
     mkdir /data/nfc/param 0770 nfc nfc
 
+    # Mark the copy complete flag to not completed
+    write /data/misc/radio/copy_complete 0
+    chown radio radio /data/misc/radio/copy_complete
+    chmod 0660 /data/misc/radio/copy_complete
+
+    # copy prebuilt qcril.db files always
+    copy /system/vendor/qcril.db /data/misc/radio/qcril_prebuilt.db
+    chown radio radio /data/misc/radio/qcril_prebuilt.db
+    chmod 0660 /data/misc/radio/qcril_prebuilt.db
+    # File flags for prebuilt ril db file
+    write /data/misc/radio/prebuilt_db_support 1
+    chown radio radio /data/misc/radio/prebuilt_db_support
+    chmod 0400 /data/misc/radio/prebuilt_db_support
+    write /data/misc/radio/db_check_done 0
+    chown radio radio /data/misc/radio/db_check_done
+    chmod 0660 /data/misc/radio/db_check_done
+
     # Create folder for timekeep
     mkdir /data/time/ 0700 system system
 
@@ -458,6 +475,12 @@ service irsc_util /system/bin/irsc_util "/etc/sec_config"
     user root
     oneshot
 
+service qti /system/vendor/bin/qti
+    class main
+    user radio
+    group radio net_raw qcom_diag usb net_admin
+    writepid /dev/cpuset/system-background/tasks
+
 service sensors /system/bin/sensors.qcom
     class core
     user root
@@ -605,6 +628,11 @@ service mlog_qmi_service /system/bin/mlog_qmi_service
     group system wakelock drmrpc
     writepid /dev/cpuset/system-background/tasks
 
+service irsc_util /system/bin/irsc_util "/etc/sec_config"
+    class core
+    user root
+    oneshot
+
 # QCOM prop
 service rmt_storage /system/bin/rmt_storage
     class core
@@ -618,6 +646,42 @@ service qmuxd /system/bin/qmuxd
     user radio
     group radio audio bluetooth wakelock gps nfc diag drmrpc
     writepid /dev/cpuset/system-background/tasks
+
+service imsqmidaemon /system/bin/imsqmidaemon
+    class main
+    user system
+    socket ims_qmid stream 0660 system radio
+    group radio log diag
+    writepid /dev/cpuset/system-background/tasks
+
+service imsdatadaemon /system/bin/imsdatadaemon
+    class main
+    user system
+    socket ims_datad stream 0660 system radio
+    group system wifi radio inet log diag
+    disabled
+    writepid /dev/cpuset/system-background/tasks
+
+on property:sys.ims.QMI_DAEMON_STATUS=1
+    start imsdatadaemon
+
+service ims_rtp_daemon /system/bin/ims_rtp_daemon
+   class main
+   user system
+   socket ims_rtpd stream 0660 system radio
+   group radio diag inet log
+   disabled
+
+service imscmservice /system/bin/imscmservice
+   class main
+   user system
+   group radio diag inet log
+   disabled
+   writepid /dev/cpuset/system-background/tasks
+
+on property:sys.ims.DATA_DAEMON_STATUS=1
+   start ims_rtp_daemon
+   start imscmservice
 
 # QCOM prop
 service netmgrd /system/bin/netmgrd

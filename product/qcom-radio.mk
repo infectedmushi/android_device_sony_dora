@@ -4,4 +4,5 @@ PRODUCT_COPY_FILES += \
 
 # Data properties
 PRODUCT_PROPERTY_OVERRIDES += \
+    rild.libpath=/vendor/lib64/libril-qc-qmi-1.so \
     ro.com.android.mobiledata=false
