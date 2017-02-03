@@ -314,8 +314,10 @@ bin/sensors.qcom
 etc/sensors/hals.conf
 etc/sensors/sensor_def_qcomdev.conf
 lib/hw/sensors.msm8996.so
+lib/libgnsspps.so
 lib/sensors.finger-pickup.so
 lib64/hw/sensors.msm8996.so
+lib64/libgnsspps.so
 lib64/sensors.finger-pickup.so
 vendor/lib/libsensor_reg.so
 vendor/lib/libsensor1.so
