@@ -8,3 +8,7 @@ PRODUCT_PACKAGES += \
     hostapd \
     wpa_supplicant \
     wpa_supplicant.conf
+
+# WiFi properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.interface=wlan0
